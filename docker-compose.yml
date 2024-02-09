@@ -1,0 +1,77 @@
+version: '3.4'
+
+services:
+  emergency_front:
+    container_name: emergency_front
+    command: npm run dev -- --host 0.0.0.0
+    build: 
+      context: ./Emergency/front
+      dockerfile: emerFront.dockerfile
+    ports:
+      - 8000:8000
+    restart: always
+    tty: true
+
+  emergency_back:
+    container_name: emergency_back
+    # image: docker-spring-boot-postgres:latest
+    ports:
+      - 8080:8080
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    build: 
+      context: ./Emergency/back
+      dockerfile: emerBack.dockerfile
+    restart: always
+    depends_on:
+      - emergency_db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://emergency_db:5432/emergency
+      - SPRING_DATASOURCE_USERNAME=projet
+      - SPRING_DATASOURCE_PASSWORD=projet
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+  
+  emergency_db:
+    container_name: emergency_db
+    image: postgres:16.1
+    ports:
+      - '15432:5432'
+    environment:
+      - POSTGRES_DB=emergency
+      - POSTGRES_USER=projet
+      - POSTGRES_PASSWORD=projet
+    volumes:
+      - emergency-data:/var/lib/postgresql/data
+    restart: always
+
+  simu_front:
+    container_name: simu_front
+    command: npm run dev -- --host 0.0.0.0
+    build: 
+      context: ./Simu/front
+      dockerfile: simuFront.dockerfile
+    ports:
+      - 9000:9000
+    restart: always
+    tty: true
+
+  simu_back:
+    container_name: simu_back
+    ports:
+      - 9080:9080
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    build: 
+      context: ./Simu/back
+      dockerfile: simuBack.dockerfile
+    restart: always
+    depends_on:
+      - emergency_db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://emergency_db:5432/emergency
+      - SPRING_DATASOURCE_USERNAME=projet
+      - SPRING_DATASOURCE_PASSWORD=projet
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+volumes:
+  emergency-data:

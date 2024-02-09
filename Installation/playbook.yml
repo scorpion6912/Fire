@@ -1,0 +1,12 @@
+- name: Installation and maintenance of VMs and their services
+  become: true
+  vars_files:
+    - vars.yml
+  user: user
+  hosts: all
+  roles:
+    - system-package
+    - folders-structure
+    - swap-disable
+    - docker-install
+    - services

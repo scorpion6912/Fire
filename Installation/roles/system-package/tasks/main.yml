@@ -1,0 +1,25 @@
+---
+- name: Update and upgrade system packages
+  ansible.builtin.apt:
+    upgrade: true
+    update_cache: true
+  register: result
+  until: result is not failed
+  retries: 50
+  delay: 5
+
+- name: Update and upgrade useful packages
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  with_items:
+    - gnupg2
+    - ssh
+    - iotop
+    - zip
+    - net-tools
+  register: result
+  until: result is not failed
+  retries: 50
+  delay: 5

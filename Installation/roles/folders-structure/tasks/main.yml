@@ -1,0 +1,15 @@
+---
+- name: Create base directory
+  ansible.builtin.file:
+    path: "{{ folder_structure.base }}"
+    owner: "{{ username }}"
+    state: directory
+    mode: "0755"
+
+- name: Create config directory
+  ansible.builtin.file:
+    path: "{{ folder_structure.config  }}"
+    owner: "{{ username }}"
+    state: directory
+    mode: "0755"
+

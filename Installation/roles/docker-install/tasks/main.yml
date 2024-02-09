@@ -1,0 +1,63 @@
+---
+- name: Check if Docker is installed
+  ansible.builtin.stat:
+    path: /usr/bin/docker
+  register: docker_installed
+
+- name: Add Docker GPG apt Key
+  ansible.builtin.apt_key:
+    url: "{{ docker_install.apt.gpg_key }}"
+    state: present
+  when: not docker_installed.stat.exists
+
+- name: Add Docker Repository
+  ansible.builtin.apt_repository:
+    repo: "{{ docker_install.apt.repository }}"
+    state: present
+    update_cache: true
+  when: not docker_installed.stat.exists
+
+- name: Update apt and install docker-ce
+  ansible.builtin.apt:
+    name: docker-ce
+    state: present
+    update_cache: true
+  register: result
+  until: result is not failed
+  retries: 50
+  delay: 5
+  when: not docker_installed.stat.exists
+
+- name: Add user to docker group
+  ansible.builtin.user:
+    name: "{{ username }}"
+    groups: docker
+    append: true
+
+- name: Reset ssh connection to apply changes
+  ansible.builtin.meta: reset_connection
+
+- name: Add daemon configuration
+  ansible.builtin.template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+    owner: root
+    mode: "0644"
+
+- name: Run and enable docker
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Create directory for docker configuration
+  ansible.builtin.file:
+    path: "{{ docker_install.path.remote.docker_directory }}"
+    state: directory
+    mode: "0755"
+
+- name: Create local network
+  community.general.docker_network:
+    name: local
+    ipam_config:
+      - subnet: 172.18.0.0/16

@@ -1,0 +1,7 @@
+ "log-driver": "json-file",
+    "log-opts": {
+        "max-file": "{{ docker_install.daemon.max_file }}",
+        "max-size": "{{ docker_install.daemon.max_size }}"
+    },
+    "storage-driver": "overlay2"
+}

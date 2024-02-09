@@ -1,0 +1,52 @@
+---
+- name: Delete existing configuration directory
+  ansible.builtin.file:
+    state: absent
+    path: "{{ folder_structure.base }}/{{ folder_structure.config }}"
+
+- name: Check if config folder exist
+  ansible.builtin.stat:
+    path: "{{ services.path.base }}/{{ inventory_hostname }}/{{ folder_structure.config }}"
+  delegate_to: localhost
+  register: config_folder_local
+  become: false
+
+- name: Copy of services configuration files
+  ansible.builtin.copy:
+    src: "{{ services.path.base }}/{{ inventory_hostname }}/{{ folder_structure.config }}"
+    dest: "{{ folder_structure.base }}"
+    owner: "{{ username }}"
+    mode: "preserve"
+  when: config_folder_local.stat.exists
+
+- name: Check if docker compose exist
+  ansible.builtin.stat:
+    path: "{{ services.path.base }}/{{ inventory_hostname }}/docker-compose.yml"
+  delegate_to: localhost
+  register: docker_compose_local
+  become: false
+
+- name: Copy of docker compose files
+  ansible.builtin.copy:
+    src: "{{ services.path.base }}/{{ inventory_hostname }}/docker-compose.yml"
+    dest: "{{ folder_structure.base }}"
+    owner: "{{ username }}"
+    mode: "preserve"
+  when: docker_compose_local.stat.exists
+
+- name: Stop docker-compose 
+  ansible.builtin.command: docker compose down
+  args:
+    chdir: "{{ folder_structure.base }}"
+  changed_when: true
+
+- name: Docker-compose execution
+  ansible.builtin.command: docker compose build && docker compose up --remove-orphans -d
+  args:
+    chdir: "{{ folder_structure.base }}"
+  changed_when: true
+  register: docker_compose_output
+
+- name: Show output of docker-compose execution
+  ansible.builtin.debug:
+    msg: "{{ docker_compose_output.stderr }}"

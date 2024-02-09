@@ -1,0 +1,30 @@
+su -
+nano /etc/default/keyboards
+modifier fichier:
+# KEYBOARD CONFIGURATION FILE
+
+# Consult the keyboard(5) and xkeyboard-config(7) manual page.
+
+XKBMODEL="pc105"
+XKBLAYOUT="fr"
+XKBVARIANT=""
+XKBOPTIONS="grp:alt_shift_toggle"
+
+BACKSPACE="guess"
+
+sauvegarder puis quitter
+apt install sudo
+usermod -a -G sudo projet
+
+// Installer les logiciels en fonction de la VM
+//// BDD
+apt install postgresql postgresql-contrib
+//// Web
+apt install apache2
+apt install ufw
+ufw allow 'WWW'
+ufw enable
+
+
+// On reboot tout le bordel
+reboot

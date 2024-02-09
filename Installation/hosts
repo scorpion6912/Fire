@@ -1,0 +1,8 @@
+[serveur]
+10.0.0.2 ansible_user=user ansible_user=password
+
+[pc-lyon-1]
+10.0.2.10 ansible_user=user ansible_user=password
+
+[pc-villeurbanne-1]
+10.0.1.10 ansible_user=user ansible_user=password

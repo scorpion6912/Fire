@@ -1,0 +1,107 @@
+conf t
+hostname {{ router }}
+service password-encryption
+
+line console 0
+password {{ console_password }}
+login
+exit
+
+ip domain name {{ domain_name }}
+username {{ username }} privilege 15 password {{ password }}
+crypto key generate rsa general-keys modulus 2048
+ip ssh version 2
+
+line vty 0 15
+login local
+transport input ssh
+exit
+
+{% if tracks %}
+{% for track in tracks %}
+{{ track }}
+{% endfor %}
+{% endif %}
+
+{% if acls %}
+{% for acl in acls %}
+access-list {{ acl }}
+{% endfor %}
+{% endif %}
+
+
+{% for interface in interfaces %}
+interface {{ interface.name }}
+{% if 'channel_group' in interface %}
+no ip address
+channel-group {{ interface.channel_group }}
+
+{% elif 'encapsulation' in interface %}
+encapsulation dot1Q {{ interface.encapsulation }}
+ip address {{ interface.ip }} {{ interface.netmask }}
+{% if interface.standby %}
+{% for standby in interface.standby %}
+standby {{ standby }}
+{% endfor %}
+{% endif %}
+
+{% elif  interface.ip %}
+ip address {{ interface.ip }} {{ interface.netmask }}
+{% if interface.accessgroup %}
+ip access-group {{ interface.accessgroup }}
+{% endif %}
+
+{% if interface.ospf_priority %}
+ip ospf priority {{ interface.ospf_priority }}
+{% endif%}
+
+{% elif interface.standby %}
+{% for standby in interface.standby %}
+standby {{ standby }}
+{% endfor %}
+
+{% elif interface.shutdown == false %}
+no shutdown
+
+{% endif %}
+
+no shutdown
+exit
+{% endfor %}
+
+{% if ospf %}
+router ospf {{ ospf.number }}
+router-id {{ ospf.id }}
+auto-cost reference-bandwidth 1000
+{% for network in ospf.networks %}
+network {{ network.name }} {{ network.wildmask }} area {{ network.area }}
+{% endfor %}
+{% if ospf.default_information == true%}
+default-information originate
+{% endif %}
+{% if ospf.redistribute %}
+redistribute {{ ospf.redistribute }}
+{% endif %}
+exit
+{% endif %}
+
+{% if rip %}
+router rip
+version 2
+no auto-summary
+{% if rip.redistribute %}
+redistribute {{ rip.redistribute }}
+{% endif %}
+{% for network in rip.networks %}
+network {{ network.name }}
+{% endfor %}
+exit
+{% endif %}
+
+{% if ip_routes %}
+{% for ip_route in ip_routes %}
+ip route {{ ip_route.name }}
+{% endfor %}
+{% endif %}
+
+do write

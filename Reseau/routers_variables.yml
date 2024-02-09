@@ -1,0 +1,493 @@
+###############################################################################
+#                                  INTERCO                                    #
+###############################################################################
+
+# ********************************Interco-R1 **********************************
+- router: "interco-R1"
+  domain_name: "domain.lan"
+  username: "admin"
+  password: "password"
+  console_password: "password"
+  interfaces:
+    - name: "Gi1/0"
+      ip: "10.0.0.17"
+      netmask: "255.255.255.252"
+    - name: "Gi2/0"
+      ip: "10.0.0.21"
+      netmask: "255.255.255.252"
+    - name: "port-channel 1"
+      ip: "10.0.0.61"
+      netmask: "255.255.255.252"
+    - name: "Gi3/0"
+      channel_group: 1
+    - name: "Gi4/0"
+      channel_group: 1
+  ospf:
+    number: 1
+    id: "1.1.1.1"
+    networks:
+      - name: "10.0.0.16"
+        wildmask: "0.0.0.3"
+        area: "0"
+      - name: "10.0.0.20"
+        wildmask: "0.0.0.3"
+        area: "0"
+      - name: "10.0.0.60"
+        wildmask: "0.0.0.3"
+        area: "0"
+
+# ********************************Interco-R2 **********************************
+- router: "interco-R2"
+  domain_name: "domain.lan"
+  username: "admin"
+  password: "password"
+  console_password: "password"
+  interfaces:
+    - name: "Gi1/0"
+      ip: "10.0.0.29"
+      netmask: "255.255.255.252"
+    - name: "Gi2/0"
+      ip: "10.0.0.25"
+      netmask: "255.255.255.252"
+    - name: "port-channel 1"
+      ip: "10.0.0.69"
+      netmask: "255.255.255.252"
+    - name: "Gi4/0"
+      channel_group: 1
+    - name: "Gi5/0"
+      channel_group: 1
+  ospf:
+    number: 1
+    id: "2.2.2.2"
+    networks:
+      - name: "10.0.0.24"
+        wildmask: "0.0.0.3"
+        area: "0"
+      - name: "10.0.0.28"
+        wildmask: "0.0.0.3"
+        area: "0"
+      - name: "10.0.0.68"
+        wildmask: "0.0.0.3"
+        area: "0"
+
+# ********************************Interco-R3 **********************************
+- router: "interco-R3"
+  domain_name: "domain.lan"
+  username: "admin"
+  password: "password"
+  console_password: "password"
+  interfaces:
+    - name: "Gi1/0"
+      ip: "10.0.0.18"
+      netmask: "255.255.255.252"
+      ospf_priority: "255"
+    - name: "Gi2/0"
+      ip: "10.0.0.30"
+      netmask: "255.255.255.252"
+      ospf_priority: "255"
+    - name: "Gi3/0"
+      ip: "10.0.0.37"
+      netmask: "255.255.255.252"
+      ospf_priority: "255"
+    - name: "Gi4/0"
+      ip: "10.0.0.33"
+      netmask: "255.255.255.252"
+      ospf_priority: "255"
+    - name: "Gi5/0"
+      ip: "10.0.0.50"
+      netmask: "255.255.255.252"
+      ospf_priority: "255"
+    - name: "Gi6/0"
+      ip: "10.0.0.54"
+      netmask: "255.255.255.252"
+      ospf_priority: "255" # a faire
+  ospf:
+    number: 1
+    id: "3.3.3.3"
+    networks:
+      - name: "10.0.0.16"
+        wildmask: "0.0.0.3"
+        area: "0"
+      - name: "10.0.0.28"
+        wildmask: "0.0.0.3"
+        area: "0"
+      - name: "10.0.0.32"
+        wildmask: "0.0.0.3"
+        area: "0"
+      - name: "10.0.0.36"
+        wildmask: "0.0.0.3"
+        area: "0"
+      - name: "10.0.0.48"
+        wildmask: "0.0.0.3"
+        area: "0"
+      - name: "10.0.0.52"
+        wildmask: "0.0.0.3"
+        area: "0"
+
+# ********************************Interco-R4 **********************************
+- router: "interco-R4"
+  domain_name: "domain.lan"
+  username: "admin"
+  password: "password"
+  console_password: "password"
+  interfaces:
+    - name: "Gi1/0"
+      ip: "10.0.0.26"
+      netmask: "255.255.255.252"
+      ospf_priority: "254"
+    - name: "Gi2/0"
+      ip: "10.0.0.22"
+      netmask: "255.255.255.252"
+      ospf_priority: "254"
+    - name: "Gi3/0"
+      ip: "10.0.0.41"
+      netmask: "255.255.255.252"
+      ospf_priority: "254"
+    - name: "Gi4/0"
+      ip: "10.0.0.45"
+      netmask: "255.255.255.252"
+      ospf_priority: "254"
+    - name: "Gi5/0"
+      ip: "10.0.0.49"
+      netmask: "255.255.255.252"
+      ospf_priority: "254"
+    - name: "Gi6/0"
+      ip: "10.0.0.53"
+      netmask: "255.255.255.252"
+      ospf_priority: "254"
+  ospf:
+    number: 1
+    id: "4.4.4.4"
+    networks:
+      - name: "10.0.0.20"
+        wildmask: "0.0.0.3"
+        area: "0"
+      - name: "10.0.0.24"
+        wildmask: "0.0.0.3"
+        area: "0"
+      - name: "10.0.0.40"
+        wildmask: "0.0.0.3"
+        area: "0"
+      - name: "10.0.0.44"
+        wildmask: "0.0.0.3"
+        area: "0"
+      - name: "10.0.0.48"
+        wildmask: "0.0.0.3"
+        area: "0"
+      - name: "10.0.0.52"
+        wildmask: "0.0.0.3"
+        area: "0"
+
+# ********************************Interco-R5 **********************************
+- router: "interco-R5"
+  domain_name: "domain.lan"
+  username: "admin"
+  password: "password"
+  console_password: "password"
+  ip_routes:
+    - name: 10.0.1.0 255.255.255.128 g1/0
+    - name: 10.0.1.128 255.255.255.128 g 1/0
+  interfaces:
+    - name: "port-channel 2"
+      ip: "10.0.0.81"
+      netmask: "255.255.255.252"
+    - name: "Gi1/0"
+      ip: "10.0.0.77"
+      netmask: "255.255.255.252"
+    - name: "Gi2/0"
+      ip: "10.0.0.42"
+      netmask: "255.255.255.252"
+    - name: "Gi3/0"
+      ip: "10.0.0.38"
+      netmask: "255.255.255.252"
+    - name: "Gi4/0"
+      channel_group: 2
+    - name: "Gi5/0"
+      channel_group: 2
+  ospf:
+    number: 1
+    id: "5.5.5.5"
+    networks:
+      - name: "10.0.0.36"
+        wildmask: "0.0.0.3"
+        area: "0"
+      - name: "10.0.0.40"
+        wildmask: "0.0.0.3"
+        area: "0"
+      - name: "10.0.0.76"
+        wildmask: "0.0.0.3"
+        area: "0"
+      - name: "10.0.0.80"
+        wildmask: "0.0.0.3"
+        area: "0"
+    redistribute: static subnets
+
+# ********************************Interco-R6 **********************************
+- router: "interco-R6"
+  domain_name: "domain.lan"
+  username: "admin"
+  password: "password"
+  console_password: "password"
+  ip_routes:
+    - name: 10.0.2.0 255.255.255.0 10.0.0.90
+    - name: 10.0.2.0 255.255.255.0 10.0.0.94 110
+  interfaces:
+    - name: "Gi1/0"
+      ip: "10.0.0.89"
+      netmask: "255.255.255.252"
+    - name: "Gi2/0"
+      ip: "10.0.0.93"
+      netmask: "255.255.255.252"
+    - name: "Gi3/0"
+      ip: "10.0.0.34"
+      netmask: "255.255.255.252"
+    - name: "Gi4/0"
+      ip: "10.0.0.46"
+      netmask: "255.255.255.252"
+  ospf:
+    number: 1
+    id: "6.6.6.6"
+    networks:
+      - name: "10.0.0.32"
+        wildmask: "0.0.0.3"
+        area: "0"
+      - name: "10.0.0.44"
+        wildmask: "0.0.0.3"
+        area: "0"
+      - name: "10.0.0.88"
+        wildmask: "0.0.0.3"
+        area: "0"
+      - name: "10.0.0.92"
+        wildmask: "0.0.0.3"
+        area: "0"
+    redistribute: static subnets
+
+###############################################################################
+#                                  FW                                         #
+###############################################################################
+
+# ********************************R-FW ****************************************
+- router: "R-FW1"
+  domain_name: "domain.lan"
+  username: "admin"
+  password: "password"
+  console_password: "password"
+  ip_routes:
+    - name: 0.0.0.0 0.0.0.0 10.0.0.86
+  interfaces:
+    - name: "port-channel 1"
+      ip: "10.0.0.62"
+      netmask: "255.255.255.252"
+    - name: "Gi1/0"
+      ip: "10.0.0.85"
+      netmask: "255.255.255.252"
+    - name: "Gi4/0"
+      channel_group: 1
+    - name: "Gi5/0"
+      channel_group: 1
+  ospf:
+    number: 1
+    id: "10.10.10.10"
+    networks:
+      - name: "10.0.0.60"
+        wildmask: "0.0.0.3"
+        area: "0"
+      - name: "10.0.0.84"
+        wildmask: "0.0.0.3"
+        area: "0"
+    default_information: true
+
+- router: "R-FW2"
+  domain_name: "domain.lan"
+  username: "admin"
+  password: "password"
+  console_password: "password"
+  ip_routes:
+    - name: 0.0.0.0 0.0.0.0 10.0.0.98
+  interfaces:
+    - name: "Gi1/0"
+      ip: "10.0.0.97"
+      netmask: "255.255.255.252"
+    - name: "port-channel 2"
+      ip: "10.0.0.82"
+      netmask: "255.255.255.252"
+    - name: "Gi2/0"
+      channel_group: 2
+    - name: "Gi3/0"
+      channel_group: 2
+  ospf:
+    number: 1
+    id: "11.11.11.11"
+    networks:
+      - name: "10.0.0.80"
+        wildmask: "0.0.0.3"
+        area: "0"
+      - name: "10.0.0.96"
+        wildmask: "0.0.0.3"
+        area: "0"
+    default_information: true
+
+###############################################################################
+#                                  CASERNES                                   #
+###############################################################################
+
+# ********************************Caserne-L-R1 ********************************
+- router: "Caserne-L-R1"
+  domain_name: "domain.lan"
+  username: "admin"
+  password: "password"
+  console_password: "password"
+  tracks:
+    - track 1 ip route 10.0.0.86 255.255.255.252 reachability
+    - delay down 60
+    - exit
+    - track 2 interface GigabitEthernet3/0 line-protocol
+    - delay down 60
+    - exit
+    - track 2 interface port-channel 1 line-protocol
+    - delay down 60
+    - exit
+  acls:
+    - "100 permit tcp any eq 80 10.0.2.0 0.0.0.127 established"
+    - "100 permit tcp any eq 443 10.0.2.0 0.0.0.127 established"
+    - "100 permit icmp any 10.0.2.0 0.0.0.127"
+    - "100 permit udp any eq 53 10.0.2.0 0.0.0.127"
+    - "100 permit udp any eq 67 10.0.2.0 0.0.0.127"
+    - "100 permit tcp any eq 5060 10.0.2.128 0.0.0.127"
+    - "100 permit udp any eq 5060 10.0.2.128 0.0.0.127"
+    - "100 permit icmp any 10.0.2.128 0.0.0.127 "
+    - "100 permit udp any eq 67 10.0.2.128 0.0.0.127"
+  interfaces:
+    - name: "port-channel 1"
+      ip: "10.0.0.70"
+      netmask: "255.255.255.252"
+      accessgroup: "100 in"
+    - name: "Gi1/0"
+      channel_group: 1
+    - name: "Gi2/0"
+      channel_group: 1
+    - name: "Gi3/0"
+      shutdown: false
+    - name: "Gi3/0.20"
+      encapsulation: "20"
+      ip: "10.0.2.2"
+      netmask: "255.255.255.128"
+      standby:
+        - "100 ip 10.0.2.1"
+        - "100 priority 110"
+        - "100 preempt delay minimum 60"
+        - "100 track 2 decrement 10"
+    - name: "Gi3/0.30"
+      encapsulation: "30"
+      ip: "10.0.2.131"
+      netmask: "255.255.255.128"
+      standby:
+        - "100 ip 10.0.2.129"
+        - "100 priority 110"
+        - "100 preempt delay minimum 60"
+        - "100 track 2 decrement 10"
+  ospf:
+    number: 1
+    id: "7.7.7.7"
+    networks:
+      - name: "10.0.0.63"
+        wildmask: "0.0.0.3"
+        area: "0"
+      - name: "10.0.2.0"
+        wildmask: "0.0.0.127"
+        area: "0"
+      - name: "10.0.2.128"
+        wildmask: "0.0.0.127"
+        area: "0"
+    redistribute: rip metric 1
+  rip:
+    redistribute: ospf 1
+    networks:
+      - name: "10.0.0.0"
+
+# ********************************Caserne-L-R2 ********************************
+- router: "Caserne-L-R2"
+  domain_name: "domain.lan"
+  username: "admin"
+  password: "password"
+  console_password: "password"
+  tracks:
+    - track 1 ip route 10.0.0.86 255.255.255.252 reachability
+    - delay down 60
+    - exit
+    - track 2 interface GigabitEthernet3/0 line-protocol
+    - delay down 60
+    - exit
+  ip_routes:
+    - name: 0.0.0.0 0.0.0.0 GigabitEthernet1/0
+    - name: 0.0.0.0 0.0.0.0 GigabitEthernet2/0 110
+  acls:
+    - "100 permit tcp any eq 80 10.0.2.0 0.0.0.127 established"
+    - "100 permit tcp any eq 443 10.0.2.0 0.0.0.127 established"
+    - "100 permit icmp any 10.0.2.0 0.0.0.127"
+    - "100 permit udp any eq 53 10.0.2.0 0.0.0.127"
+    - "100 permit udp any eq 67 10.0.2.0 0.0.0.127"
+    - "100 permit tcp any eq 5060 10.0.2.128 0.0.0.127"
+    - "100 permit udp any eq 5060 10.0.2.128 0.0.0.127"
+    - "100 permit icmp any 10.0.2.128 0.0.0.127 "
+    - "100 permit udp any eq 67 10.0.2.128 0.0.0.127"
+  interfaces:
+    - name: "Gi1/0"
+      ip: "10.0.0.90"
+      netmask: "255.255.255.252"
+      accessgroup: "100 in"
+    - name: "Gi2/0"
+      ip: "10.0.0.94"
+      netmask: "255.255.255.252"
+      accessgroup: "100 in"
+
+    - name: "Gi3/0"
+      shutdown: false
+    - name: "Gi3/0.20"
+      encapsulation: "20"
+      ip: "10.0.2.3"
+      netmask: "255.255.255.128"
+      standby:
+        - "100 ip 10.0.2.1"
+        - "100 preempt"
+    - name: "Gi3/0.30"
+      encapsulation: "30"
+      ip: "10.0.2.130"
+      netmask: "255.255.255.128"
+      standby:
+        - "100 ip 10.0.2.129"
+        - "100 preempt"
+
+# ********************************Caserne-V-R1 ********************************
+- router: "Caserne-V-R1"
+  domain_name: "domain.lan"
+  username: "admin"
+  password: "password"
+  console_password: "password"
+  ip_routes:
+    - name: 0.0.0.0 0.0.0.0 GigabitEthernet1/0
+  acls:
+    - "100 permit tcp any eq 80 10.0.1.0 0.0.0.127 established"
+    - "100 permit tcp any eq 443 10.0.1.0 0.0.0.127 established"
+    - "100 permit icmp any 10.0.1.0 0.0.0.127"
+    - "100 permit udp any eq 53 10.0.1.0 0.0.0.127"
+    - "100 permit udp any eq 67 10.0.1.0 0.0.0.127"
+    - "100 permit tcp any eq 5060 10.0.1.128 0.0.0.127"
+    - "100 permit udp any eq 5060 10.0.1.128 0.0.0.127"
+    - "100 permit icmp any 10.0.1.128 0.0.0.127 "
+    - "100 permit udp any eq 67 10.0.1.128 0.0.0.127"
+  interfaces:
+    - name: "Gi1/0"
+      ip: "10.0.0.78"
+      netmask: "255.255.255.252"
+      accessgroup: "100 in"
+    - name: "Gi2/0"
+      shutdown: false
+    - name: "Gi2/0.20"
+      encapsulation: "20"
+      ip: "10.0.1.1"
+      netmask: "255.255.255.128"
+    - name: "Gi2/0.30"
+      encapsulation: "30"
+      ip: "10.0.1.129"
+      netmask: "255.255.255.128"
